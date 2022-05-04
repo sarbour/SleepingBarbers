@@ -58,13 +58,10 @@ public:
    pthread_cond_t  *cond_barber_paid_;
    pthread_cond_t  *cond_barber_sleeping_;
   
-   int barber = 0; // the id of the barber thread
+   //int barber = 0; // the id of the barber thread
 
    void init();
    string int2string(int i);
    void print(int person, string message);
-   bool customerInAllChairs();
-   bool allBarbersInService();
-   int availableBarber();
 };
 #endif
