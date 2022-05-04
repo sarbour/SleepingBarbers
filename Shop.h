@@ -47,6 +47,7 @@ public:
    vector<bool> in_service_;
    vector<bool> money_paid_;
    queue<int> waiting_chairs_;   // includes the ids of all waiting threads
+   queue<int> available_barbers_;
    int cust_drops_;
 
    // Mutexes and condition variables to coordinate threads
