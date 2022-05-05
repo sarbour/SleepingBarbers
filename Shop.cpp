@@ -69,13 +69,11 @@ int Shop::visitShop(int id)
    // wake up the barber just in case if he is sleeping
    pthread_cond_signal(&cond_barber_sleeping_[barber_id]);
 
-   cout << "Available Barber = " << barber_id << endl;
-
    print(id, "moves to the service chair[" + int2string(barber_id) + "]. # waiting seats available = " + int2string(max_waiting_cust_ - waiting_chairs_.size()));
    customer_in_chair_[barber_id] = id;
    in_service_[barber_id] = true;
 
-   pthread_mutex_unlock(&mutex_); 
+   pthread_mutex_unlock(&mutex_);  // unlock
    return barber_id;
 }
 
@@ -92,7 +90,7 @@ void Shop::leaveShop(int id, int barber_id)
    money_paid_[barber_id] = true;
    print(id, "says good-bye to barber[" + int2string(barber_id) + "]" );
    pthread_cond_signal(&cond_barber_paid_[barber_id]);
-   pthread_mutex_unlock(&mutex_);
+   pthread_mutex_unlock(&mutex_);  // unlock
 }
 
 void Shop::helloCustomer(int barber_id) 
@@ -107,7 +105,7 @@ void Shop::helloCustomer(int barber_id)
       pthread_cond_wait(&cond_barber_sleeping_[barber_id], &mutex_);
    }
    print(-barber_id, "starts a hair-cut service for customer[" + int2string(customer_in_chair_[barber_id]) + "]");
-   pthread_mutex_unlock( &mutex_ );
+   pthread_mutex_unlock(&mutex_);  // unlock
 }
 
 void Shop::byeCustomer(int barber_id) 
@@ -127,7 +125,7 @@ void Shop::byeCustomer(int barber_id)
   customer_in_chair_[barber_id] = 0;
   available_barbers_.push(barber_id);
   print(-barber_id, "calls in another customer");
-  pthread_cond_signal( &cond_customers_waiting_ );
+  pthread_cond_signal(&cond_customers_waiting_);
 
-  pthread_mutex_unlock( &mutex_ );  // unlock
+  pthread_mutex_unlock(&mutex_);  // unlock
 }
