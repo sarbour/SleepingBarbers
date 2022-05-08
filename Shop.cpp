@@ -65,14 +65,15 @@ int Shop::visitShop(int id)
    while (available_barbers_.empty()){
       pthread_cond_wait(&cond_customers_waiting_, &mutex_);
    }
+   
+   int barber_id = available_barbers_.front();
+   available_barbers_.pop();
 
    if(waiting_chairs_.size() > 0){
       id = waiting_chairs_.front();
       waiting_chairs_.pop();
    }
-
-   int barber_id = available_barbers_.front();
-   available_barbers_.pop();
+   
    // wake up the barber just in case if he is sleeping
    pthread_cond_signal(&cond_barber_sleeping_[barber_id]);
 

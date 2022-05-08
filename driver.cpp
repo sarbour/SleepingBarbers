@@ -65,6 +65,9 @@ int main(int argc, char *argv[])
     }
 
     cout << "# customers who didn't receive a service = " << shop.get_cust_drops() << endl;
+
+    usleep(10000);
+
     return 0;
 }
 
