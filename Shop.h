@@ -22,11 +22,7 @@ public:
    { 
       init(); 
    };
-   // Shop(int num_chairs) : max_waiting_cust_((num_chairs > 0 ) ? num_chairs : kDefaultNumChairs), customer_in_chair_(0),
-   //    in_service_(false), money_paid_(false), cust_drops_(0)
-   // { 
-   //    init(); 
-   // };
+   
    Shop() : max_waiting_cust_(kDefaultNumChairs), nBarbThreads_(kDefaultBarbers),
       customer_in_chair_(kDefaultBarbers, 0), in_service_(kDefaultBarbers, 0),
       money_paid_(kDefaultBarbers, 0), cust_drops_(0)
@@ -34,11 +30,17 @@ public:
       init();
    };
 
+   ~Shop(){
+      destroy();
+   }
+
    int visitShop(int id);   // return true only when a customer got a service
    void leaveShop(int id, int barber_id);
    void helloCustomer(int barber_id);
    void byeCustomer(int barber_id);
    int get_cust_drops() const;
+   void checkCustomerInChair();
+   void signalAllBarberThreads();
 
  private:
    const int max_waiting_cust_;  // the max number of threads that can wait
@@ -57,11 +59,12 @@ public:
    pthread_cond_t  *cond_customer_served_;
    pthread_cond_t  *cond_barber_paid_;
    pthread_cond_t  *cond_barber_sleeping_;
-  
-   //int barber = 0; // the id of the barber thread
 
    void init();
    string int2string(int i);
    void print(int person, string message);
+
+   void destroy();
 };
+
 #endif

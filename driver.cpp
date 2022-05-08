@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     int num_customers = atoi(argv[3]);
     int service_time = atoi(argv[4]);
 
-    //Single barber, one shop, many customers
+    //barber(s), one shop, many customers
     pthread_t barber_threads[num_barbers];
     pthread_t customer_threads[num_customers];
     Shop shop(num_chairs, num_barbers);

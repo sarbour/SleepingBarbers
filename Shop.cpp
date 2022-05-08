@@ -16,6 +16,13 @@ void Shop::init()
    }
 }
 
+void Shop::destroy()
+{
+   delete[] cond_customer_served_;
+   delete[] cond_barber_paid_;
+   delete[] cond_barber_sleeping_;
+}
+
 string Shop::int2string(int i) 
 {
    stringstream out;
@@ -31,7 +38,7 @@ void Shop::print(int person, string message)
 
 int Shop::get_cust_drops() const
 {
-    return cust_drops_;
+   return cust_drops_;
 }
 
 int Shop::visitShop(int id) 
@@ -79,7 +86,7 @@ int Shop::visitShop(int id)
 
 void Shop::leaveShop(int id, int barber_id) 
 {
-   pthread_mutex_lock( &mutex_ );
+   pthread_mutex_lock(&mutex_);
    // Wait for service to be completed
    print(id, "wait for the hair-cut to be done");
    while (in_service_[barber_id] == true)
