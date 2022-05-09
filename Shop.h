@@ -14,7 +14,7 @@ using namespace std;
 class Shop 
 {
 public:
-   Shop(int num_chairs, int num_barbers) : max_waiting_cust_((num_chairs > 0 ) ? num_chairs : kDefaultNumChairs),
+   Shop(int num_chairs, int num_barbers) : max_waiting_cust_((num_chairs > -1 ) ? num_chairs : kDefaultNumChairs),
       customer_in_chair_((num_barbers > 0 ) ? num_barbers : kDefaultBarbers, 0), 
       in_service_((num_barbers > 0 ) ? num_barbers : kDefaultBarbers, false),
       money_paid_((num_barbers > 0 ) ? num_barbers : kDefaultBarbers, false),

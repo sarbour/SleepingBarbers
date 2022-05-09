@@ -44,16 +44,29 @@ int Shop::get_cust_drops() const
 int Shop::visitShop(int id) 
 {
    pthread_mutex_lock(&mutex_);
-   
-   // If all chairs are full then leave shop
-   if (waiting_chairs_.size() == max_waiting_cust_) 
+
+   // If barbers are busy and zero waiting chairs available, leave
+   if (available_barbers_.empty() && max_waiting_cust_ == 0) 
    {
       print(id, "leaves the shop because of no available waiting chairs.");
       ++cust_drops_;
       pthread_mutex_unlock(&mutex_);
       return -1;
    }
-   
+
+   // If all chairs are full then leave shop
+   if (max_waiting_cust_ == 0)
+   {
+      // Do nothing
+   }
+   else if (waiting_chairs_.size() == max_waiting_cust_) 
+   {
+      print(id, "leaves the shop because of no available waiting chairs.");
+      ++cust_drops_;
+      pthread_mutex_unlock(&mutex_);
+      return -1;
+   }
+
    // If someone is being served or transitioning waiting to service chair
    // then take a chair and wait for service
    if (available_barbers_.empty() || !waiting_chairs_.empty()) 
